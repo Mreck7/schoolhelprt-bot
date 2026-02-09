@@ -1,0 +1,12 @@
+app = "telegram-bot-schoolhelper"
+primary_region = "iad"
+
+[build]
+
+[env]
+  BOT_TOKEN = ""
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
