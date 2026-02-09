@@ -20,7 +20,17 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Получаем токен бота из переменной окружения
-BOT_TOKEN = os.getenv('BOT_TOKEN', '')
+BOT_TOKEN_RAW = os.getenv('BOT_TOKEN', '')
+
+# Очищаем токен от лишних символов (пробелы, переносы строк и т.д.)
+if BOT_TOKEN_RAW:
+    BOT_TOKEN = BOT_TOKEN_RAW.strip().replace('\n', '').replace('\r', '').replace('\t', '').replace(' ', '')
+    # Логируем длину токена для отладки (не сам токен!)
+    logger.info(f"Токен получен, длина: {len(BOT_TOKEN)} символов")
+    if len(BOT_TOKEN) != len(BOT_TOKEN_RAW.strip()):
+        logger.warning(f"Токен был очищен от лишних символов. Исходная длина: {len(BOT_TOKEN_RAW)}, очищенная: {len(BOT_TOKEN)}")
+else:
+    BOT_TOKEN = ''
 
 if not BOT_TOKEN:
     logger.error("BOT_TOKEN не установлен! Установите токен через переменную окружения или .env файл")
